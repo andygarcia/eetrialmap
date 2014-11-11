@@ -65,8 +65,8 @@ df_trials <-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Write the final table to CSV
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df_trials$lat <- round(as.double(df_trials$lat, 5))
-df_trials$lon <- round(as.double(df_trials$lon, 5))
-df_trials$sitelat <- round(as.double(df_trials$sitelat, 5))
-df_trials$sitelon <- round(as.double(df_trials$sitelon, 5))
+df_trials$lat <- signif(as.double(df_trials$lat, 5))
+df_trials$lon <- signif(as.double(df_trials$lon, 5))
+df_trials$sitelat <- signif(as.double(df_trials$sitelat, 5))
+df_trials$sitelon <- signif(as.double(df_trials$sitelon, 5))
 write.csv(df_trials, file ="./data/simple_overview_modified.csv", row.names = FALSE)
