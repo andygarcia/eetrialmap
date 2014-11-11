@@ -20,12 +20,12 @@
     
     <center><h3>Data Collection and Preparation</h3></center>
     <p>
-    The data is based on internal WHO data provided to Andres Garcia 2014-11-10.
+    The data is based on internal WHO data as of 2014-11-08.
     Geographic coordinates (latitude/longitude) were added to the records.
     Minor errors were also handled during processing.
     Those errors include:
     </p>
-    <li>Misspelling (e.g. Unknown, Unkown</li>
+    <li>Misspelling (e.g. Unkown</li>
     <li>Trials with unknown locations are not mapped</li><br>
     
     <center><h3>Acknowledgement</h3></center>
