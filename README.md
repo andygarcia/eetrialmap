@@ -12,6 +12,10 @@ install.packages("shiny")
 shiny::runGitHub("andygarcia/eetrialmap")
 ```
 
+### Data
+
+Currently underlying data cannot be released due to sharing restrictions.
+
 ### Screenshot (as of 2014-11-11)
 
 ![Screenshot1](https://raw.githubusercontent.com/andygarcia/eetrialmap/master/image/eetrialmap_screenshot_01.png)
