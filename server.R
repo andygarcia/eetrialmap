@@ -44,7 +44,7 @@ shinyServer(function(input, output, session) {
   create_map <- function(map_region = NULL,
                          map_country = NULL,
                          map_zoom = 2,
-                         map_type = 'Acetate.all',  # Esri.WorldGrayCanvas, OpenStreetMap.BlackAndWhite
+                         map_type = 'Stamen.TonerLite',
                          map_width = 1100,
                          map_height = 600) {
 
