@@ -19,13 +19,8 @@ navbarPage(title = "Ebola Trial Locations",
   # Tab "Maps"
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tabPanel("Map",
-           tags$style('.leaflet {height: 600px;}'),
+           tags$style('.leaflet {height: 800px;}'),
            showOutput('map_all', 'leaflet')),
-#   navbarMenu("Maps",
-#     tabPanel("All Trial Locations",
-#              tags$style('.leaflet {height: 600px;}'),
-#              showOutput('map_all', 'leaflet'))
-#   ),
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Tab "Data"
@@ -43,5 +38,10 @@ navbarPage(title = "Ebola Trial Locations",
              HTML("<p> <br></p>"),
              dataTableOutput("data_modified")
     )
-  )
+  ),
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Tab "Code"
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  tabPanel("Code", includeMarkdown("doc/code.md"))
 )
