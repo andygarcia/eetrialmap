@@ -347,7 +347,8 @@ shinyServer(function(input, output, session) {
     # Return
     original[, c("Product", "Phase", "Country", "Site", "PI")]
 
-  }, options = list(aLengthMenu = c(10, 25, 50, 100, 150), iDisplayLength = 10))
+  }, options = list(paging = FALSE, searching = FALSE))
+
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # [Output]: Table - Modified Data
@@ -360,5 +361,5 @@ shinyServer(function(input, output, session) {
     # Return
     modified[, c("Product", "Phase", "Country", "Site", "PI", "lat", "lon", "sitelat", "sitelon")]
 
-  }, options = list(aLengthMenu = c(10, 25, 50, 100, 150), iDisplayLength = 10))
+  }, options = list(paging = FALSE, searching = FALSE))
 })
