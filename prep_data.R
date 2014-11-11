@@ -17,7 +17,7 @@ df_trials <- trials
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Add lat, long at the country level for each trial
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-country_locs <- data.frame(Country = unique(df_trials$Country), lat = NA, lon = NA, countryCode = NA)
+country_locs <- data.frame(Country = unique(df_trials$Country), lat = NA, lon = NA, countryCode = NA, countryGNId = NA)
 for (i in 1:nrow(df_trials)) {
   country <- country_locs$Country[i]
   res <- GNsearch(name_equals = country, featureClass = "A", featureCode = "PCLI")
@@ -25,6 +25,7 @@ for (i in 1:nrow(df_trials)) {
     country_locs$lat[i] <- res$lat[1]
     country_locs$lon[i] <- res$lng[1]
     country_locs$countryCode[i] <- res$countryCode[1]
+    country_locs$countryGNId[i] <- res$geonameId[1]
   }
   if(nrow(res) > 1) {
     warning(paste0("More than one geonames result for ", country))
