@@ -5,7 +5,7 @@
     by <a href="http://www.who.int/" target="_blank">World Health Organization</a>
     </p><br></center>
     
-    <center><h3>How to use:</h3></center>    
+    <center><h3>Howto:</h3></center>    
     <p>
     To begin with, view the map of trial locations (<i>Navbar → Map</i>).</p>
     <p>
@@ -42,7 +42,7 @@
     
     <p>The
     <a href="http://geonames.org" target="_blank"><i>geonames</i></a>
-    allowing quick and easy geolocation of place names</p>    
+    webservice for allowing quick and easy geolocation of geographic names</p>    
     <br>
     
     <center><h3>License</h3></center>
