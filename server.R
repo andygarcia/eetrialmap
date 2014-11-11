@@ -16,7 +16,6 @@ shinyServer(function(input, output, session) {
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ## [Function]: Setting the approximate map center
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
   set_center <- function(loc = 'all') {
     if (loc == 'all') return(data.frame(lon = 10, lat = 15))
 
@@ -43,7 +42,6 @@ shinyServer(function(input, output, session) {
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ## [Main Function]: Create Leaflet rMaps
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
   create_map <- function(map_region = NULL,
                          map_country = NULL,
                          map_zoom = 2,
@@ -87,7 +85,6 @@ shinyServer(function(input, output, session) {
 
     ## Return map_base
     return(map_base)
-
   }
 
 
@@ -103,7 +100,6 @@ shinyServer(function(input, output, session) {
     html_out <- HTML(map_base$html(chartId = "map_all"))
     html_out <- fix_mbs(html_out)
     html_out
-
   })
 
 
@@ -119,7 +115,6 @@ shinyServer(function(input, output, session) {
     html_out <- HTML(map_base$html(chartId = "map_asia"))
     html_out <- fix_mbs(html_out)
     html_out
-
   })
 
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -134,7 +129,6 @@ shinyServer(function(input, output, session) {
     html_out <- HTML(map_base$html(chartId = "map_europe"))
     html_out <- fix_mbs(html_out)
     html_out
-
   })
 
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -149,7 +143,6 @@ shinyServer(function(input, output, session) {
     html_out <- HTML(map_base$html(chartId = "map_n_america"))
     html_out <- fix_mbs(html_out)
     html_out
-
   })
 
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -164,7 +157,6 @@ shinyServer(function(input, output, session) {
     html_out <- HTML(map_base$html(chartId = "map_mea"))
     html_out <- fix_mbs(html_out)
     html_out
-
   })
 
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -179,7 +171,6 @@ shinyServer(function(input, output, session) {
     html_out <- HTML(map_base$html(chartId = "map_oceania"))
     html_out <- fix_mbs(html_out)
     html_out
-
   })
 
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -194,7 +185,6 @@ shinyServer(function(input, output, session) {
     html_out <- HTML(map_base$html(chartId = "map_sc_america"))
     html_out <- fix_mbs(html_out)
     html_out
-
   })
 
 
@@ -211,7 +201,6 @@ shinyServer(function(input, output, session) {
     html_out <- HTML(map_base$html(chartId = "map_usa"))
     html_out <- fix_mbs(html_out)
     html_out
-
   })
 
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -226,7 +215,6 @@ shinyServer(function(input, output, session) {
     html_out <- HTML(map_base$html(chartId = "map_canada"))
     html_out <- fix_mbs(html_out)
     html_out
-
   })
 
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -241,7 +229,6 @@ shinyServer(function(input, output, session) {
     html_out <- HTML(map_base$html(chartId = "map_australia"))
     html_out <- fix_mbs(html_out)
     html_out
-
   })
 
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -256,7 +243,6 @@ shinyServer(function(input, output, session) {
     html_out <- HTML(map_base$html(chartId = "map_germany"))
     html_out <- fix_mbs(html_out)
     html_out
-
   })
 
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -271,7 +257,6 @@ shinyServer(function(input, output, session) {
     html_out <- HTML(map_base$html(chartId = "map_india"))
     html_out <- fix_mbs(html_out)
     html_out
-
   })
 
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -286,7 +271,6 @@ shinyServer(function(input, output, session) {
     html_out <- HTML(map_base$html(chartId = "map_japan"))
     html_out <- fix_mbs(html_out)
     html_out
-
   })
 
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -301,64 +285,58 @@ shinyServer(function(input, output, session) {
     html_out <- HTML(map_base$html(chartId = "map_uk"))
     html_out <- fix_mbs(html_out)
     html_out
-
   })
 
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ## [Output]: Download Buttons for Original Data
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  
+
   csv_ori <- reactive({
     read.csv("./data/rugs_ww_june_11_14.csv", stringsAsFactors = FALSE)
   })
-  
+
   output$dl_ori <- downloadHandler(
     filename = function() {'rugs_ww_june_11_14.csv'},
     content = function(file) {write.csv(csv_ori(), file)}
   )
-  
+
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ## [Output]: Download Buttons for Modified Data
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  
+
     csv_mod <- reactive({
       read.csv("./data/rugs_modified.csv", stringsAsFactors = FALSE)
     })
-    
+
     output$dl_mod <- downloadHandler(
       filename = function() {'rugs_modified.csv'},
       content = function(file) {write.csv(csv_mod(), file)}
     )
-  
-  
+
+
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ## [Output]: Table - Original Data
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   output$data_original <- renderDataTable({
-    
+
     ## Read Original CSV
     rugs <- read.csv("./data/rugs_ww_june_11_14.csv", stringsAsFactors=FALSE)
-    
+
     ## Return
     rugs
-    
+
   }, options = list(aLengthMenu = c(10, 25, 50, 100, 150), iDisplayLength = 10))
-  
+
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ## [Output]: Table - Modified Data
   ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   output$data_modified <- renderDataTable({
-    
+
     ## Read Original CSV
     rugs_new <- read.csv("./data/rugs_modified.csv", stringsAsFactors=FALSE)
-    
+
     ## Return
     rugs_new[, -3]
-    
+
   }, options = list(aLengthMenu = c(10, 25, 50, 100, 150), iDisplayLength = 10))
-
-  ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ## End of Shiny Server Script
-  ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 })
