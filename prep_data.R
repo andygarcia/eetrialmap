@@ -1,22 +1,22 @@
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Process study trial data from WHO data sources, adding lat, long and other
-## required meta data for mapping
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Process study trial data from WHO data sources, adding lat, long and other
+# required meta data for mapping
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 require(dplyr)
 require(geonames)
 options(geonamesUsername = "andyjgarcia")
 require(maps)
 
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Import raw data with minimal processing
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Import raw data with minimal processing
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 trials <- read.csv("./data/simple_overview.csv", stringsAsFactors = FALSE)
 trials[which(trials == "?", arr.ind = TRUE)] <- "Unknown"
 df_trials <- trials
 
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Add lat, long at the country level for each trial
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Add lat, long at the country level for each trial
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 country_locs <- data.frame(Country = unique(df_trials$Country), lat = NA, lon = NA, countryCode = NA)
 for (i in 1:nrow(df_trials)) {
   country <- country_locs$Country[i]
@@ -34,9 +34,9 @@ df_trials <-
   tbl_df(df_trials) %>%
   inner_join(country_locs, by = c("Country"))
 
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Where possible, add resolution down to site
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Where possible, add resolution down to site
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 site_locs <- data.frame(unique(df_trials[,c("countryCode", "Site")]), sitelat = NA, sitelon = NA, siteGNId = NA)
 for (i in 1:nrow(df_trials)) {
   site <- site_locs$Site[i]
@@ -61,11 +61,11 @@ df_trials <-
   tbl_df(df_trials) %>%
   left_join(site_locs, by = c("Site", "countryCode"))
 
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Write the final table to CSV
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df_trials$lat <- round(as.numeric(df_trials$lat, 5))
-df_trials$lon <- round(as.numeric(df_trials$lon, 5))
-df_trials$sitelat <- round(as.numeric(df_trials$sitelat, 5))
-df_trials$sitelon <- round(as.numeric(df_trials$sitelon, 5))
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Write the final table to CSV
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+df_trials$lat <- round(as.double(df_trials$lat, 5))
+df_trials$lon <- round(as.double(df_trials$lon, 5))
+df_trials$sitelat <- round(as.double(df_trials$sitelat, 5))
+df_trials$sitelon <- round(as.double(df_trials$sitelon, 5))
 write.csv(df_trials, file ="./data/simple_overview_modified.csv", row.names = FALSE)
