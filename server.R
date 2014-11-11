@@ -314,11 +314,11 @@ shinyServer(function(input, output, session) {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   csv_ori <- reactive({
-    read.csv("./data/rugs_ww_june_11_14.csv", stringsAsFactors = FALSE)
+    read.csv("./data/simple_overview.csv", stringsAsFactors = FALSE)
   })
 
   output$dl_ori <- downloadHandler(
-    filename = function() {'rugs_ww_june_11_14.csv'},
+    filename = function() {'simple_overview.csv'},
     content = function(file) {write.csv(csv_ori(), file)}
   )
 
@@ -327,11 +327,11 @@ shinyServer(function(input, output, session) {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     csv_mod <- reactive({
-      read.csv("./data/rugs_modified.csv", stringsAsFactors = FALSE)
+      read.csv("./data/simple_overview_modified.csv", stringsAsFactors = FALSE)
     })
 
     output$dl_mod <- downloadHandler(
-      filename = function() {'rugs_modified.csv'},
+      filename = function() {'simple_overview_modified.csv'},
       content = function(file) {write.csv(csv_mod(), file)}
     )
 
@@ -342,10 +342,10 @@ shinyServer(function(input, output, session) {
   output$data_original <- renderDataTable({
 
     # Read Original CSV
-    rugs <- read.csv("./data/rugs_ww_june_11_14.csv", stringsAsFactors=FALSE)
+    original <- read.csv("./data/simple_overview.csv", stringsAsFactors=FALSE)
 
     # Return
-    rugs
+    original[, c("Product", "Phase", "Country", "Site", "PI")]
 
   }, options = list(aLengthMenu = c(10, 25, 50, 100, 150), iDisplayLength = 10))
 
@@ -354,11 +354,11 @@ shinyServer(function(input, output, session) {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   output$data_modified <- renderDataTable({
 
-    # Read Original CSV
-    rugs_new <- read.csv("./data/rugs_modified.csv", stringsAsFactors=FALSE)
+    # Read modified CSV
+    modified <- read.csv("./data/simple_overview_modified.csv", stringsAsFactors=FALSE)
 
     # Return
-    rugs_new[, -3]
+    modified[, c("Product", "Phase", "Country", "Site", "PI", "lat", "lon", "sitelat", "sitelon")]
 
   }, options = list(aLengthMenu = c(10, 25, 50, 100, 150), iDisplayLength = 10))
 })
