@@ -10,21 +10,12 @@ navbarPage(title = "Ebola Trial Locations",
   theme = 'bootstrap.css',
   collapsable = TRUE,
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Tab "About"
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tabPanel("About", includeMarkdown("doc/intro.md")),
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Tab "Maps"
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tabPanel("Map",
            tags$style('.leaflet {height: 800px;}'),
            showOutput('map_all', 'leaflet')),
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Tab "Data"
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   navbarMenu("Data",
     tabPanel("Data (Original)",
              HTML("<h3>Original Trial Data from WHO</h3>"),
@@ -40,8 +31,5 @@ navbarPage(title = "Ebola Trial Locations",
     )
   ),
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Tab "Code"
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tabPanel("Code", includeMarkdown("doc/code.md"))
 )
