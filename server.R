@@ -3,6 +3,7 @@ library(rMaps)
 library(rCharts)
 library(ggmap)
 library(markdown)
+library(dplyr)
 
 shinyServer(function(input, output, session) {
 
@@ -54,19 +55,19 @@ shinyServer(function(input, output, session) {
     row_subset <- 1:nrow(trials)
     geo_center <- set_center('all')
 
-#     # Define map center and record needed
-#     if (is.null(map_region) & is.null(map_country)) {
-#       geo_center <- set_center('all')
-#       row_subset <- 1:nrow(trials)
-#
-#     } else if (is.null(map_region)) {
-#       geo_center <- set_center(map_country)
-#       row_subset <- which(df_rugs$Country %in% map_country)
-#
-#     } else if (is.null(map_country)) {
-#       geo_center <- set_center(map_region)
-#       row_subset <- which(df_rugs$Region %in% map_region)
-#     }
+    # Define map center and record needed
+    if (is.null(map_region) & is.null(map_country)) {
+      geo_center <- set_center('all')
+      row_subset <- 1:nrow(trials)
+
+    } else if (is.null(map_region)) {
+      geo_center <- set_center(map_country)
+      row_subset <- which(df_rugs$Country %in% map_country)
+
+    } else if (is.null(map_country)) {
+      geo_center <- set_center(map_region)
+      row_subset <- which(df_rugs$Region %in% map_region)
+    }
 
     # subset trials based on filters
     trials <- trials[row_subset, ]
@@ -78,30 +79,49 @@ shinyServer(function(input, output, session) {
     map_base$tileLayer(provider = map_type)
     map_base$setView(c(geo_center$lat, geo_center$lon), map_zoom)
 
+
     # add site markers, with potentially multiple trials
-    sites <- trials[which(!is.na(trials$siteGNId)), ]
-    unique_sites <- unique(sites[, c("Country", "Site", "sitelat", "sitelon", "siteGNId")])
+    sites <-
+      tbl_df(trials) %>%
+      filter(!is.na(siteGNId))
+
+    unique_sites <-
+      sites %>%
+      select(Country, Site, sitelat, sitelon, siteGNId) %>%
+      distinct()
+
     for(i in 1:nrow(unique_sites) ) {
       site <- unique_sites[i, ]
-      trial <- sites[sites$siteGNId == site$siteGNId, ]
+      trial <- sites %>% filter(siteGNId == site$siteGNId)
 
-      site.label <- paste0(site$Site, ", ", site$Country)
-      trial.labels <- paste0(trial$Product, " - ", trial$Phase, " - PI: ", trial$PI, collapse = "<br>")
-      popup.label <- paste0(site.label, "<br><br>", trial.labels)
+      site.label <- paste0("Site: <b>", site$Site, ", ", site$Country, "</b><br><br>")
+      trial.labels <- paste0("Intervention: <b>", trial$Product, "</b><br>",
+                             "Phase: <b>", trial$Phase, "</b><br>",
+                             "PI: <b>", trial$PI, "</b><br>", collapse="<br>")
+      popup.label <- paste0(site.label, trial.labels)
       map_base$marker(c(site$sitelat, site$sitelon), bindPopup = popup.label)
     }
 
     # add country markers, with likely multiple trials
-    countries <- trials[which(is.na(trials$siteGNId)), ]
-    countries <- countries[which(!is.na(countries$countryGNId)), ]
-    unique_countries <- unique(countries[, c("Country", "lat", "lon", "countryGNId")])
+    countries <-
+      tbl_df(trials) %>%
+      filter(is.na(siteGNId))
+
+    unique_countries <-
+      countries %>%
+      select(Country, lat, lon, countryGNId) %>%
+      distinct() %>%
+      filter(!is.na(countryGNId))
+
     for(i in 1:nrow(unique_countries) ) {
       country <- unique_countries[i, ]
-      trial <- countries[countries$countryGNId == country$countryGNId, ]
+      trial <- countries %>% filter(countryGNId == country$countryGNId)
 
-      country.label <- paste0(country$Country)
-      trial.labels <- paste0(trial$Product, " - ", trial$Phase, " - PI: ", trial$PI, collapse = "<br>")
-      popup.label <- paste0(country.label, "<br><br>", trial.labels)
+      country.label <- paste0("Country: <b>", country$Country, "</b><br><br>")
+      trial.labels <- paste0("Intervention: <b>", trial$Product, "</b><br>",
+                             "Phase: <b>", trial$Phase, "</b><br>",
+                             "PI: <b>", trial$PI, "</b><br>", collapse="<br>")
+      popup.label <- paste0(country.label, trial.labels)
       map_base$marker(c(country$lat, country$lon), bindPopup = popup.label)
     }
 
