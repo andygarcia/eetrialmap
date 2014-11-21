@@ -19,23 +19,6 @@ shinyServer(function(input, output, session) {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   set_center <- function(loc = 'all') {
     if (loc == 'all') return(data.frame(lon = 10, lat = 15))
-
-    # By Region
-    if (loc == 'Asia') return(data.frame(lon = 105, lat = 20))
-    if (loc == 'Europe') return(data.frame(lon = 22, lat = 50))
-    if (loc == 'North America') return(data.frame(lon = -100, lat = 40.5))
-    if (loc == 'Middle East or Africa') return(data.frame(lon = 20, lat = 0))
-    if (loc == 'Oceania') return(data.frame(lon = 143.5, lat = -31))
-    if (loc == 'South or Central America') return(data.frame(lon = -70, lat = -18))
-
-    # By Country (>= 5 groups)
-    if (loc == 'Australia') return(data.frame(lon = 131.5, lat = -30))
-    if (loc == 'Canada') return(data.frame(lon = -100, lat = 48))
-    if (loc == 'Germany') return(data.frame(lon = 10, lat = 51))
-    if (loc == 'India') return(data.frame(lon = 77, lat = 20))
-    if (loc == 'Japan') return(data.frame(lon = 135.5, lat = 36.5))
-    if (loc == 'United Kingdom') return(data.frame(lon = -3.5, lat = 54))
-    if (loc == 'United States') return(data.frame(lon = -100, lat = 35))
   }
 
 
