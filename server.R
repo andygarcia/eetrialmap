@@ -80,7 +80,7 @@ shinyServer(function(input, output, session) {
     map_base$setView(c(geo_center$lat, geo_center$lon), map_zoom)
 
 
-    # add site markers, with potentially multiple trials
+    # per site markers with multiple trials
     sites <-
       tbl_df(trials) %>%
       filter(!is.na(siteGNId))
@@ -102,7 +102,7 @@ shinyServer(function(input, output, session) {
       map_base$marker(c(site$sitelat, site$sitelon), bindPopup = popup.label)
     }
 
-    # add country markers, with likely multiple trials
+    # per country markers with multiple trials
     countries <-
       tbl_df(trials) %>%
       filter(is.na(siteGNId))
@@ -125,7 +125,6 @@ shinyServer(function(input, output, session) {
       map_base$marker(c(country$lat, country$lon), bindPopup = popup.label)
     }
 
-    # Return map_base
     return(map_base)
   }
 
