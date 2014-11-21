@@ -34,26 +34,14 @@ shinyServer(function(input, output, session) {
 
     # load data
     trials <- read.csv("./data/simple_overview_modified.csv", stringsAsFactors=FALSE)
-    # hack TODO
+
+    # eventually subset trials for this specific map render based on filters
     row_subset <- 1:nrow(trials)
+    trials <- trials[row_subset, ]
+
+    # center map on world for now
     geo_center <- set_center('all')
 
-    # Define map center and record needed
-    if (is.null(map_region) & is.null(map_country)) {
-      geo_center <- set_center('all')
-      row_subset <- 1:nrow(trials)
-
-    } else if (is.null(map_region)) {
-      geo_center <- set_center(map_country)
-      row_subset <- which(df_rugs$Country %in% map_country)
-
-    } else if (is.null(map_country)) {
-      geo_center <- set_center(map_region)
-      row_subset <- which(df_rugs$Region %in% map_region)
-    }
-
-    # subset trials based on filters
-    trials <- trials[row_subset, ]
 
     # create and config map_base
     map_base <- rMaps::Leaflet$new()
