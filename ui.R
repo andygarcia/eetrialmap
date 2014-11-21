@@ -14,7 +14,7 @@ navbarPage(title = "Ebola Trial Locations",
 
   tabPanel("Map",
            tags$style('.leaflet {height: 800px;}'),
-           showOutput('map_all', 'leaflet')),
+           mapOutput('map_all')),
 
   navbarMenu("Data",
     tabPanel("Data (Original)",
